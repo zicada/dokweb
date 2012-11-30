@@ -1,0 +1,158 @@
+
+*{
+	margin: 0px;						/* Set to zero to be sure it's default in all browsers at first*/
+	padding: 0px;
+}
+
+/* General layout */
+body {
+	background:#e0e0e0; 
+	color:#303030; 
+	font:76% tahoma, verdana, sans-serif; 
+	margin:0; 
+	padding: 5px 0 0;
+}
+#container {
+	background:#fff; 
+	margin:0 auto 20px; 
+	padding:5px 20px 20px; 
+	width:1080px;
+}
+
+/* Site title */
+#logo {
+	margin:15px 0;
+}
+#logo h1 a {border:none; color:#303030; text-decoration:none;}
+#logo h1 a:hover {border:none; color:#505050; text-decoration:none;}
+#logo p {font-size:1.3em;  color:#303030; margin:0 0 20px 0;}
+
+
+
+
+/* Navigation tabs  */
+
+#navitabs {
+clear:both;
+}
+.navitab {
+	background:#e0e0e0 url(../pics/corner.gif) top right no-repeat; 
+	border-bottom:1px solid #fff; 
+	border-left:1px solid #fff; 
+	font-size:1.1em; 
+	margin:0 0 4px; 
+	padding:4px 8px; 
+	text-decoration:none;
+}
+
+.navitab:hover {
+	background:#505050 url(../pics/corner.gif) top right no-repeat; 
+	border-bottom:1px solid #fff; 
+	color:#fff;
+	text-decoration:none;
+	}
+	
+.activenavitab {
+	background:#505050 url(../pics/corner.gif) top right no-repeat; 
+	color:#fff; 
+	font-size:1.1em; 
+	margin:0 0 5px; 
+	padding:4px 8px 5px; 
+	text-decoration:none;
+	}
+.activenavitab:hover {
+	color:#fff; 
+	text-decoration:none;
+}
+
+
+/* Header description area */
+#header {
+	clear:both;
+	background:#505050;
+	color:#fff;
+	margin:5px 0 10px; 
+	padding: 0 0 5px 0;
+}
+
+#header p {
+	font-size:1em; 
+	padding:10px 0 0 7px; 
+}
+
+#header a {
+	border-color:#003366; 
+	color:#fff; 
+}
+
+	/* Main content */
+#main {
+	border-color: 1px #505050;
+	width:100%;
+	height: 600px;
+}
+
+#visualization {
+	width: 100%;
+	height: 500px;
+}
+
+/* Footer */
+#footer {
+	background:#fff; 
+	border-top:1px solid #d8d8d8; 
+	clear:both; 
+	margin:0; 
+	padding:0;
+}
+#footer a {
+	color:#505050;
+}
+#footer a:hover {
+	color:#303030;
+}
+#footer p {
+	color:#505050; 
+	font-size:1.1em; 
+	margin:15px 0 0; 
+	padding:0;
+	text-align: center;
+}
+
+/* Tags */
+
+a {
+	border-bottom:1px dotted #505050; 
+	color:#303030; 
+	text-decoration:none;
+}
+a:hover {
+	border-bottom:1px solid #505050; 
+	color:#303030; 
+	text-decoration:none;
+}
+a img {
+border:0;
+}
+h1 {
+	font-size:2.2em; 
+	margin:0 0 5px; 
+	padding:0 0 12px;
+}
+h2 {
+	font-size:1.8em; 
+	margin:0 0 12px;
+}
+h3 {
+	font-size:1.4em; 
+	margin:0 0 10px;
+}
+p {
+	line-height:1.5em; 
+	margin:0 0 5px; 
+	text-align:left;}
+
+
+
+/* Additional classes */
+.hide {display:none;}

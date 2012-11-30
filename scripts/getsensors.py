@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-
+# Filename = getsensors.py
 import json
-import cgi
 import os
 
 # Return a list of filenames for each of the sensors so we can populate the <select> element in jquery

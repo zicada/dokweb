@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+
+<head>
+
+    <title>Måledata med Canvas</title>
+	
+	<link rel="stylesheet" href="style/canvas.css"/>
+
+    <script type="text/javascript">
+
+        var can, ctx,
+
+            maxVal, minVal,
+
+            xScalar, yScalar,
+
+            numSamples;
+
+        // data sets -- set literally or obtain from an ajax call. Testdata for now
+		
+		//Why is the lines way up there ? Reposition
+		
+		var base = 400; //test
+
+        var enhetEn =  [100, 70, 0, 72, 0, 76, 0, 78, 0, 72, 0, 68];
+
+        var enhetTo = [20, 30, 40, 50, 60, 70, 80, 90, 70, 60, 50, 40];
+
+        var enhetTre =   [10, 20, 0, 50, 50, 60, 90, 100, 50, 40, 30, 0];
+		
+		var enhetFire =  [70, 0, 72, 0, 76, 0, 78, 0, 72, 0, 68, 0];
+
+        var enhetFem = [20, 30, 40, 50, 60, 70, 80, 90, 70, 60, 50, 40];
+
+        var enhetSeks =   [50, 60, 10, 20, 30, 60, 50, 30, 40, 70, 80, 10];
+
+ 
+
+        function init() {
+
+            // set these values for your data
+
+            numSamples = 12;  //variable for select
+
+            maxVal = 100;
+
+            minVal = 0;
+
+            var stepSize = 10;
+
+            var colHead = 50;
+
+            var rowHead = 50;
+
+            var margin = 5;
+
+            var header = [" ", "Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", " Aug", "Sep", "Okt", "Nov", "Des" ]
+
+ 
+			//2. Finding the canvas by id so we can use it
+            can = document.getElementById('canvas');   
+
+			//3. Access the 2d context
+            ctx = can.getContext('2d');					
+			
+			//4. Rendering graphichs
+            ctx.fillStyle = "black"
+
+            ctx.font = "14pt Arial"
+
+            // set vertical scalar to available height / data points
+
+            yScalar = (can.height - colHead - margin) / (maxVal - minVal);
+
+            // set horizontal scalar to available width / number of samples
+
+            xScalar = (can.width - rowHead) / numSamples;
+
+ 
+
+            ctx.strokeStyle="rgba(255, 128, 100, 0.7)"; // grey lines
+
+            ctx.beginPath();
+
+            // print  column header and draw vertical grid lines
+
+            for (i = 1; i <= numSamples; i++) {
+
+                var x = i * xScalar;
+
+                ctx.fillText(header[i], x, colHead - margin);
+
+                ctx.moveTo(x, colHead);
+
+                ctx.lineTo(x, can.height - margin);
+
+            }
+
+            // print row header and draw horizontal grid lines
+
+            var count = 0;
+
+            for (scale = maxVal; scale >= minVal; scale -= stepSize) {
+
+                var y = colHead + (yScalar * count * stepSize);
+
+                ctx.fillText(scale, margin, y + margin);
+
+                ctx.moveTo(rowHead, y)
+
+                ctx.lineTo(can.width, y)
+
+                count++;
+
+            }
+
+            ctx.stroke();
+
+            //translate to bottom of graph and scale x,y to match data
+            ctx.translate(100, can.height - margin);
+
+            // set a color and make one call to plotData()
+
+            // for each data set
+
+            ctx.strokeStyle = "green";
+
+            plotData(enhetEn);
+
+            ctx.strokeStyle = "red";
+
+            plotData(enhetTo);
+
+            ctx.strokeStyle = "purple";
+
+            plotData(enhetTre);
+			
+			ctx.strokeStyle = "blue";
+
+            plotData(enhetFire);
+
+            ctx.strokeStyle = "orange";
+
+            plotData(enhetFem);
+
+            ctx.strokeStyle = "grey";
+
+            plotData(enhetSeks);
+
+        }
+
+ 
+
+			function plotData(dataSet) {
+
+            ctx.beginPath();
+
+            ctx.moveTo(0, dataSet[0]);
+
+            for (i = 1; i < numSamples; i++) {
+
+               ctx.lineTo(i * xScalar, dataSet[i]);
+
+            }
+
+            ctx.stroke();
+
+        }
+
+    </script>
+
+</head>
+
+<body onload="init()">
+
+    <div align="center">
+
+        <h2>Visualisering av måledata</h2>
+		<br />
+
+		<!-- Defining canvas size -->
+        <canvas id="canvas" width="650" height="400" >
+			OBS! Grafikken på denne siden fungerer ikke i Internet Explorer. Skift til en annen nettleser for å se alt innholdet.
+        </canvas>
+
+        <br />
+
+        <!-- 1. identify your data sets -->
+
+        <span style="color:green">Testenhet 1</span> &nbsp;
+
+        <span style="color:red">Testenhet 2</span> &nbsp;
+
+        <span style="color:purple">Testenhet 3</span> &nbsp;
+		
+		<span style="color:blue">Testenhet 4</span> &nbsp;
+
+        <span style="color:orange">Testenhet 5</span> &nbsp;
+
+        <span style="color:grey">Testenhet 6</span>
+
+    </div>
+
+</body>
+
+</html>

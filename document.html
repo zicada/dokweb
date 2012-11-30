@@ -1,0 +1,1072 @@
+﻿<!DOCTYPE html>
+<html lang="no">
+<head>
+	<meta charset="UTF-8"/>	
+	<title>Prosjektdokumentasjon: Visualisering av måledata</title>
+	<link rel="stylesheet" href="style/docum.css">
+</head>
+
+<body onload="prettyPrint()">
+
+<div id="all_content">
+<header id="top_header">
+	<h1>Prosjektdokumentasjon: Visualisering av måledata </h1>
+	
+</header>
+
+<nav id="top_menu">
+	<ul>
+		<li><a href="#om">Om prosjektet</a></li>
+		<li><a href="#problem">Problemstilling</a></li>
+		<li><a href="#data">Tilgjengelige data</a></li>
+		<li><a href="#teknologi">Teknologier</a></li>
+		<li><a href="#prosesskart">Prosesskart</a></li>
+		<li><a href="#kildekode">Kildekode</a></li>
+		<li><a href="#oppsummering">Oppsummering</a></li>
+		<li><a href="#referanser">Referanseliste</a></li>
+		<li><a href="demo.html">Demo</a></li>
+
+
+	</ul>
+</nav>
+
+<section id="main_section">
+
+	<article> <!-- Om prosjektet -->
+		<header>
+		<h2>Om prosjektet</h2> 
+
+		</header>
+		<p>
+		Dette prosjektet har som hovedmål å visualisere måledata som logges av firmaet <b><a href="http://tiny-mesh.com/" target="_blank">TinyMesh</a></b> i noen undervisningsrom på høgskolen i Østfold. Her er det tatt i bruk målere som skal registrere seks verdier: lyd, lys, luftfuktighet, bevegelse, temperatur og CO<sub>2</sub>. Gjennom prosjektet skal forskjellige teknologier benyttes for å komme frem til løsninger der data fra målingene visualiseres. Disse teknologiene er beskrevet på kurssidene og omfatter:
+		</p>
+			<blockquote>
+			"Handtering av XML-dokumenter i forskjellige sammenhenger, tilhørende teknologier som CSS, DTD, SCHEMA, PDF, XSLT, XSL-FO og andre interessante XML-språk. En del av kurset vil handle om Python, både som generelt programmeringsspråk og spesielt som verktøy for å lage CGI-løsninger. Python er valgt som programmeringsspråk fordi det er rimelig strukturert, rikt og plattformuavhengig. Javascript/AJAX vil bli brukt til programmering på klientsiden."
+			</blockquote>
+		<p>
+		I tillegg skal man kunne vise eksempel på hvordan man henter en eller flere websider i PDF format for lagring på klient. 
+		</p>
+		
+		<h3>Prosjektet blir til</h3>
+		<p>
+		Ideen til prosjektet kom til ved en tilfeldighet i det vi lurte på hva de små sorte apparatene på veggene i klasserommene hadde for oppgave. Via Per Gunnar Fyhn som har veiledet prosjekter om energiforbruk på høgskolen kom vi kort etter i kontakt med Rolv Møll Nilsen hos TinyMesh. Her ble vi tildelt en demobruker og passord til deres egen side for visualisering av data. I tillegg fikk vi tilgang til et API vi kunne bruke for å hente ut data for egne forsøk på løsninger. 
+		</p>
+		<img style="margin:0px auto;display:block" src="pics/maaler.png" alt="Eksempel på TinyMesh måleutstyr" Title="Eksempel på TinyMesh måleutstyr">
+		<p class="figure">Figur 1: Et eksempel på en Tinymesh måler</p>
+		<br />
+	</article>
+
+	<article> <!-- Problemstilling -->
+		<header>
+		<h2 id="problem">Problemstilling</h2> 
+		</header>
+
+		<p>
+		Når et API nå var tilgjengelig for prosjektgruppen ble problemstillingen følgende:<br />
+		Hvordan utvikle en webside der det hentes data fra et API som videre skal sorteres for å passe inn i de visualiseringsløsningene vi bestemmer oss for å presentere?
+		</p>
+	</article>
+	
+	<article> <!-- Tilgjengelige data -->
+		<header>
+		<h2 id="data">Tilgjengelige data</h2> 
+		</header>
+
+		<p>
+		Som nevnt benytter vi et API der vi finner at data er lagret i XML format. Oppdateringsfrekvensen av disse dataene er en gang i minuttet noe som gir oss mye data å teste med på kort tid. Utfordringen kom i det vi fant at det var noder vi ikke hadde behov for som ikke lot seg utelate ved direkte kall til API. 
+		</p>
+		<p>
+		Det er i dette tilfellet fire forskjellige typer noder:<br/>
+		- <b>gateway</b> (ingen ekstra felter)<br />
+		- <b>bridge</b> (ingen ekstra felter)<br />
+		- <b>meter</b> (meter: antall pulser på strømmåler)<br />
+		- <b>building-sensor</b> (co2: .., temp: ...)<br />
+		I vårt tilfelle er building-sensor den noden det er interessant å hente måledata fra. Vi velger å transformere data og lagre som CSV format fordi vi tror det at en flat kommaseparert struktur vil være enklere og raskere å hente fra en XML struktur ettersom fila vokser. 
+		</p>
+		
+		
+		
+		<img style="margin:0px auto;display:block" src="pics/utdrag_csv.png" alt="Bildet viser utdrag fra en csv fil" Title="Et udrag fra en av våre fem csv filer">
+		<p class="figure">Figur 2: Et utdrag fra en av våre fem CSV filer.</p>
+	</article>
+	
+	
+	<article> <!-- Teknologier i bruk-->
+		<header>
+			<hgroup>
+				<h2  id="teknologi">Teknologier i bruk</h2>
+				<h3></h3>
+			</hgroup>
+		</header>
+		<p>Som nevnt i innledningen er det en gitt mengde teknologier som skal berøres gjennom prosjektet. En kort beskrivelse av dem vi har benyttet og hva de gjør for oss:</p>
+		<p><b>HTML5:</b> Benyttes for å opprette innhold og struktur i dokumentene vi har på web. HTML5 er den seneste versjonen av HTML markup språket der semantikk har en større rolle enn før. I stedet for å fylle et dokument med &lt;div&gt; tagger benyttes nå tagger som beskriver innholdet bedre som for eksempel header, article og footer for å nevne noen. 
+Ved validering får vi opp en advarsel om at bruken av HTML5 er eksperimentell og at gamle nettlesere kan få problemer. Vårt primære mål er ikke å være bakover kompatible med alle nettlesere og i testene vi har gjort har vi benyttet Internet Explorer 9, Firefox 16, Google Chrome 23 og   Opera 12 for å teste. 
+Sidene fungerer i alle disse nettleserne men Chrome er den som gir det beste resultatet uansett side. Som et eksempel her kan vi nevne iframe der Chrome er den eneste som kan «skru av» rammen med «seamless» for at iframe skal se ut som en del av siden.
+</p>
+		<p><b>CSS:</b> Cascading Style Sheets er stilsett der vi formaterer HTML kode for å få det utseendet vi ønsker å presentere. Den seneste versjonen er CSS3 der man benytter selektorer som manipulerer tekst og farger på en mer avansert måte enn det som var mulig tidligere. Noe av dette kan vel sies å fortsatt være eksperimentelt siden ikke alle nettlesere støtter alt.</p>
+		<p><b>Python:</b> Dette er programmeringsspråket som er benyttet for å hente, bruke plugins for å forme og lagre data. Av plugins kan vi nevne, lxml for transformasjon av xml fra API og json sammen med Ajax kall for å hente opp data som klientsiden trenger for å tegne opp grafene. </p>
+
+		<p><b>Javascript:</b> Gir oss mulighet for å lage klient-side funksjonalitet på websiden vår.</p>
+		<p><b>Ajax:</b> I dette prosjektet er Ajax benyttet til å sende data til og fra serveren.</p>
+
+		
+	</article>
+
+		<article> <!-- Prosesskart -->
+		<header>
+			<h2 id="prosesskart">Prosesskart</h2>
+		</header>
+		<p>Vi hadde et ønske om å bruke SVG med embed men det fungerte svært dårlig i Firefox. <a href="pics/prosesskart.svg" target="_blank">SVG filen kan man se her</a></p>
+		<br />
+		<img style="margin:0px auto;display:block" width="90%" height="90%" src="pics/prosesskart.png" alt="Bildet viser prosesskart av systemet" Title="Prosesskart">
+
+		<p class="figure">Figur 3: Prosesskart over systemet.</p>
+	
+	</article>
+
+
+	<article> <!-- Begrensinger i prosjektet -->
+		<header>
+
+			<h2>Begrensninger i prosjektet</h2>
+		</header>
+		<p>Vi ser at vår løsning med CSV filer kunne vært gjort noe annerledes. Vår tanke var at siden prosjektet ville strekke seg over 2-3 måneder ville aldri filstørrelsen bli et problem med en økning på ca. 3Mb i måneden.  Det man eventuelt kunne gjort var å forandre getdata.py til å fjerne første linje når det legges til en ny dersom totalt antall linjer er over et vist antall. Dette ville fungert i en produksjon der man kun overvåker et visst tidsintervall. </p>
+
+	</article>
+	
+	<article> <!-- Kildekode -->
+		<header>
+			<hgroup>
+				<h2 id="kildekode">Kildekode</h2>
+				<h3>Hente og lagre data fra API</h3>
+			</hgroup>
+		</header>
+		<p> Pyhton er språket som benyttes ved henting og behandling av måledata fra Tinymesh
+		</p>
+		<p>
+		Vinduet under viser kildekoden for å hente data (getdata.py) fra Tinymesh API og transformere og lagre som CSV format på vårt område på Frigg. Siden oppslag vil bli gjort mot CSV filen lokalt vil vi ikke generere mer trafikk enn nødvendig mot API'et. En annen grunn for valg av CSV format er en flat struktur der vi mener lesehastigheten vil være bedre enn mot XML siden måledataene har får samme rekkefølge i hver linje som legges til for hver gang en forespørsel mot API’et blir gjort. 
+		</p>
+		
+		<p class="figure">Kildekode: getdata.py:</p>
+		
+		
+<pre class="prettyprint"> <!-- getdata.py -->
+#!/usr/bin/env python
+# Filename: getdata.py
+import urllib2
+import parse
+import string
+import os.path
+
+baseurl = "http://api.tiny-solution.com/"
+auth = "xx00x00x"
+# Where to store our CSV-files
+path = "/mnt/iscsi3/data3/dokweb/h2012/dokweb_h124/htdocs/data/"
+
+def getData(url, header):
+  req = urllib2.Request(url, None, header)
+  try:
+    data = urllib2.urlopen(req).read()
+  except urllib2.HTTPError, e:
+    print "HTTP error: %d" % e.code
+  except urllib2.URLError, e:
+    print "Network error: %s" % e.reason.args[1]
+  return data
+
+# Returns a list of each known node of any type
+def getNodes():
+  data = getData(baseurl + "network/statsbygg-remmen/nodes?auth=" + auth, {'Accept': 'application/xml'})
+  nodes = parse.parseNodes(data)
+  return nodes
+
+# Returns fields-data for a given node
+def getNodeData(node):
+  data = getData(baseurl + "node/" + node + "/messages?auth=" + auth + "&meta=event&date.from=-&
+  fields=co2,temp,moist,movement,light,audio&composite.prefix=_&limit=1", {'Accept': 'application/xml'})
+  nodes = parse.parseNodeData(data)
+  return nodes
+
+# Deprecated for now, seems easier to get data in xml and generate csv ourselves. 
+def getNodeCsvData(node):
+  data = getData(baseurl + "node/" + node + "/messages?auth=" + auth + "&meta=event&date.from=-&
+  fields=co2,temp,moist,movement,light,audio&composite.prefix=_&limit=10", {'Accept': 'text/csv'})
+  return data
+
+def fileExists(file):
+  return os.path.isfile(file)
+
+def writeToFile(file, data):
+  f = open(file, 'a')
+  f.write(data + "\n")
+  f.close()
+
+if __name__ == "__main__":
+  nodes = getNodes()
+  for n in nodes:
+    out = ""
+    head = ""
+    # Get fielddata for each node (There is no way to ask the API to only return the nodes we want, 
+	# so we will have to deal with this ourselves)
+    data = getNodeData(n.text)
+    # Check that we dont store data from dead or uninteresting nodes, then generate / append to CSV
+    if len(data) > 5 and data[5].text != "-50":
+      for d in data[:-1]:
+        out += d.text + ","
+        head += d.tag[6:] + "," # cut off the prepending "_field" of this tag
+      out += data[-1].text # trick so we dont concat a comma at the end
+      head += data[-1].tag[5:] # cut off the prepending "_meta" of this tag
+      fname = path + str(n.text) + ".csv"
+      # Add header info based on the xml tags if we're creating new files
+      if fileExists(fname):
+        writeToFile(fname, out)
+      else:
+        writeToFile(fname, head)
+
+
+	</pre>
+			<h3>Transformasjon i Python med lxml</h3>
+			<p> Getdata.py parser data som hentes fra API og transformerer det ved hjelp av lxml.</p>
+		
+		<p class="figure">Kildekode: parse.py:</p>
+
+    <pre class="prettyprint"> <!-- parse.py -->	
+#!/usr/bin/env python
+# Filename: parse.py
+from lxml import etree
+
+def parseNodes(xml):
+  tree = etree.fromstring(xml)
+  xp = "//root/data/node/meta/node"
+  nodes = tree.xpath(xp)
+  return nodes
+
+def parseNodeData(xml):
+  tree = etree.fromstring(xml)
+  xp = "//root/node/*"
+  nodes = tree.xpath(xp)
+  return nodes
+
+</pre>
+
+
+			<h3>Hente sensordata</h3>
+			<p> 
+			Koden i fila getsensors.py henter opp alle CSV filnavnene og legger de til i select elementet i JQuery. Formålet med denne fila er å unngå hardkoding av navn på målerne og på den måten ha kode som fortsatt fungerer om TinyMesh skulle endre navn på målepunktene i sin kode.
+			</p>
+		
+		<p class="figure">Kildekode: getsensors.py:</p>
+		
+<pre class="prettyprint"> <!-- getsensors.py -->	
+#!/usr/bin/env python
+# Filename = getsensors.py
+import json
+import os
+
+# Return a list of filenames for each of the sensors 
+# so we can populate the &lt;select&gt; element in jquery
+files = os.listdir("/mnt/iscsi3/data3/dokweb/h2012/dokweb_h124/htdocs/data")
+
+print "Content-type: application/json"
+print
+print json.dumps(files)
+
+	</pre>
+	
+				<h3>Bruke Ajax med Python</h3>
+			<p> 
+			Disse scriptene tar verdier for valgt sensor samt antall linjer data som skal returneres via POST ved å bruke CGI.fieldstorage.
+			De henter deretter ut rett antall linjer fra rett csv-fil ved bruk av tail, og genererer JSON som sendes tilbake til klienten.
+			Ajaxpost genererer et DataTable objekt som konverteres til JSon ved hjelp av gviz_api,- googles python library for google charts. Jsajax returnerer JSon basert på standard liste.
+			</p>
+		
+		<p class="figure">Kildekode: ajaxpost.py:</p>
+		
+<pre class="prettyprint"> <!-- ajaxpost.py -->	
+#!/usr/bin/env python
+
+import sys
+import json
+import cgi
+sys.path.append('gviz_api_py-1.8.2')
+import gviz_api
+from commands import getoutput
+import datetime
+
+# Path to our csv datafiles
+path = "/mnt/iscsi3/data3/dokweb/h2012/dokweb_h124/htdocs/data/";
+
+# Read POST values, use defaults if we're not getting anything
+fs = cgi.FieldStorage()
+
+if fs.getvalue('linesToGet'):
+  linesToRead = fs.getvalue('linesToGet')
+else:
+  linesToRead = 4
+
+if fs.getvalue('sensor'):
+  sensor = fs.getvalue('sensor')
+else:
+  sensor = "statsbygg-remmen-209adfaf.csv"
+
+fname = path+sensor
+
+# Use 'tail' to get the last x lines from a given file
+def tail(f, n):
+  output = getoutput('tail -n %i %s' % (n, f))
+  return output.splitlines()
+
+numdata = tail(fname, int(linesToRead))
+
+# Parse the lines of CSV we have read and store in array. 
+# We need to set datatypes for each field or the gviz api will complain.
+data = []
+for line in numdata:
+  bits = line.split(',')
+  # Convert from unix epoch to datetime and do some formatting
+  time = datetime.datetime.fromtimestamp(float(bits[6]))
+  time.strftime('%Y-%m-%d %H:%M:%S')
+  # Normalize the co2-values by shifting its decimal to the right 
+  #(eg devide by 10) as theyre far too high compared to the other numbers. 
+  co2 = float(bits[1]) / 10
+  # The rest of the values need to be represented as floats so they dont lose any resolution.
+  data.append((float(bits[0]),co2,float(bits[2]),float(bits[3]),float(bits[4]),float(bits[5]),time))
+
+# Generate a DataTable object for google charts
+
+description = [("audio","number"),("co2", "number"),("light","number"),
+("moist","number"),("movement","number"),("temp","number"),("timestamp","datetime")]
+
+data_table = gviz_api.DataTable(description)
+data_table.LoadData(data)
+
+# Pass the finished DataTable object to jquery in JSon format
+print "Content-type: application/json"
+print
+print data_table.ToJSon(columns_order=("timestamp", "light", "co2",  "moist", "movement", "temp", "audio"))
+
+
+</pre>
+
+		
+		<p class="figure">Kildekode: jsajax.py:</p>
+		
+<pre class="prettyprint"> <!-- jsajax.py -->
+#!/usr/bin/env python
+
+import sys
+import json
+import cgi
+import csv
+from commands import getoutput
+import datetime
+
+# Path to our csv datafiles
+path = "/mnt/iscsi3/data3/dokweb/h2012/dokweb_h124/htdocs/data/";
+
+# Read POST values, use defaults if we're not getting anything
+fs = cgi.FieldStorage()
+
+if fs.getvalue('linesToGet'):
+  linesToRead = fs.getvalue('linesToGet')
+else:
+  linesToRead = 4
+
+if fs.getvalue('sensor'):
+  sensor = fs.getvalue('sensor')
+else:
+  sensor = "statsbygg-remmen-209adfaf.csv"
+
+fname = path+sensor
+
+# Use 'tail' to get the last x lines from a given file
+def tail(f, n):
+  output = getoutput('tail -n %i %s' % (n, f))
+  return output.splitlines()
+
+data = tail(fname, int(linesToRead))
+# Use csv-reader and assign keys. Since we're using tail, its easiest to use DictReader 
+# and assign the keys manually 
+reader = csv.DictReader(data,fieldnames = 
+("audio", "co2", "light", "moist", "movement", "temp", "timestamp"))
+
+# Generate json
+out = json.dumps( [ row for row in reader ] ) 
+
+print "Content-type: application/json"
+print
+print out
+	
+</pre>
+
+				<h3>Pygal serverside</h3>
+			<p> 
+			Pygal er et python-library som genererer grafer/diagrammer i SVG format.
+			Dette scriptet kalles direkte fra en iframe, og returnerer html &lt;embed&gt; tagger for hver av sensorene.
+			Pygal er fortsatt i beta-fasen, og har problemer med store antall datapunkter. Vi hardcoder derfor antall
+			datapunkter til 1440 (et døgn), og viser kun hvert 200
+			</p>
+
+		<p class="figure">Kildekode: serverside.py:</p>
+		
+<pre class="prettyprint"> <!-- serverside.py -->
+#!/usr/bin/env python
+
+import sys
+import os
+import csv
+from commands import getoutput
+import datetime
+sys.path.append('pygal-0.13.0-py2.6.egg')
+import pygal
+from pygal.style import LightSolarizedStyle
+
+# Paths to our csv datafiles and svg images
+path = "/mnt/iscsi3/data3/dokweb/h2012/dokweb_h124/htdocs/data/";
+imgpath = "../imagedata/"
+
+# Hardcode for 24 hours 
+linesToRead = 1440
+files = os.listdir(path)
+imgfiles = os.listdir(imgpath)
+
+# Embed an svg-object for each sensor generated below
+# We have to do this immadiately or calling this file directly from an iframe will throw an error
+print "Content-type: text/html"
+print
+print '&lt;embed src = "' + imgpath + files[0][:-4] + ".svg" + '" type="image/svg+xml" width = "524"/&gt;'
+print '&lt;embed src = "' + imgpath + files[1][:-4] + ".svg" + '" type="image/svg+xml" width = "524"/&gt;'
+print '&lt;embed src = "' + imgpath + files[2][:-4] + ".svg" + '" type="image/svg+xml" width = "524"/&gt;'
+print '&lt;embed src = "' + imgpath + files[3][:-4] + ".svg" + '" type="image/svg+xml" width = "524"/&gt;'
+print '&lt;embed src = "' + imgpath + files[4][:-4] + ".svg" + '" type="image/svg+xml" width = "524"/&gt;'
+
+# Add a real name to each of the sensors
+def getRealName(name):
+  if (name == "statsbygg-remmen-c1140e28"):
+    return "Aud max - Oppe"
+  if (name == "statsbygg-remmen-209adfaf"):
+    return "Aud max - Nede"
+  if (name == "statsbygg-remmen-00175c3c"):
+    return "FU1-042 - Dramarom"
+  if (name == "statsbygg-remmen-e5fb2deb"):
+    return "A1-022 - Stipendiatrom"
+  if (name == "statsbygg-remmen-4b1c8e6b"):
+    return "FU1-041 - Sminkerom"
+  return "not found"
+
+for file in files:
+  sensor = file
+  fname = path+sensor
+  outname = file[:-4] + ".svg"
+
+  # Use 'tail' to get the last x lines from a given file
+  def tail(f, n):
+    output = getoutput('tail -n %i %s' % (n, f))
+    return output.splitlines()[::200]
+
+  data = tail(fname, int(linesToRead))
+
+  # Use csv-reader and assign keys. Since we're using tail, its easiest to use DictReader 
+  # and assign the keys manually
+  reader = csv.DictReader(data,fieldnames = 
+  ("audio", "co2", "light", "moist", "movement", "temp", "timestamp"))
+
+  # Declare an array for each of the sensortypes
+  audio, co2, light, moist, movement, temp, timestamp = [], [], [], [], [], [], []
+
+  # assaign values to each array, make sure we divide co2 by 10 to normalize it.
+  for r in reader:
+    audio.append(float(r['audio']))
+    co2.append(float(r['co2'])/10)
+    light.append(float(r['light']))
+    moist.append(float(r['moist']))
+    movement.append(float(r['movement']))
+    temp.append(float(r['temp']))
+    # Convert from unixtime and format correctly for 24hr display
+    time = datetime.datetime.fromtimestamp(float(r['timestamp']))
+    time = time.strftime('%d-%m %H:%M')
+    timestamp.append(str(time))
+
+  line_chart = pygal.StackedLine(fill=True, style=LightSolarizedStyle)
+  line_chart.title = getRealName(sensor[:-4])
+  line_chart.x_labels = timestamp
+  line_chart.add('Audio', audio)
+  line_chart.add('Co2', co2)
+  line_chart.add('Light', light)
+  line_chart.add('Moist', moist)
+  line_chart.add('Movement', movement)
+  line_chart.add('Temp', temp)
+  # Write to svg-file, this overwrites the file every time we run.
+  # On a system with only userlevel access, make sure to run this as the 
+  # webserver the first time, so each svg-file is created with the correct ownsership and permissions
+  line_chart.render_to_file(imgpath+outname)
+
+	
+</pre>
+
+			<h3>Javascript for Googlechart</h3>
+			<p> Gcharts.js lytter til museklikk på submitknappen i demo.html og kjører drawChart() funksjonen. Dette er funksjonen som henter inn JSON DataTable objektet fra ajaxpost.py og tegner opp grafen i henhold til det brukeren har satt inn i menyen. Funksjonene getRealName() og getSensorNames() henter henholdsvis sensor navn og bytter ut Tinymesh sine sensornavn med rom navn på HIOF.</p>
+		
+		<p class="figure">Kildekode: gcharts.js:</p>
+
+<pre class="prettyprint"> <!-- gcharts.js -->	
+google.load('visualization', '1', {'packages':['corechart']});
+
+$("document").ready(function() {
+    getSensorNames();
+    $('#btnSet').bind('click', function() {
+	drawChart();
+    });
+
+// Grab the sensornames and populate the &lt;select&gt; element
+function getSensorNames() {
+    $.ajax({
+      url: "scripts/getsensors.py",
+      type: "POST",
+      dataType:"json",
+      success: function(response) {
+         $(response).each(function() {
+           var option = $('&lt;option /&gt;');
+           option.attr('value', this).text(getRealName(this.slice(0,-4))); 
+           $('#selectSensor').append(option);
+         });
+      }
+    });
+}
+
+// Return the real name of a given sensorname
+function getRealName(name) {
+    if (name == "statsbygg-remmen-c1140e28") {
+      return "Aud max - Oppe";
+    } else if (name == "statsbygg-remmen-209adfaf") {
+      return "Aud max - Nede";
+    } else if (name == "statsbygg-remmen-00175c3c") {
+      return "FU1-042 - Dramarom";
+    } else if (name == "statsbygg-remmen-e5fb2deb") {
+      return "A1-022 - Stipendiatrom";
+    } else if (name == "statsbygg-remmen-4b1c8e6b") {
+      return "FU1-041 - Sminkerom";
+    }
+}
+
+// Send the name of the selected sensor and the amt of lines we want returned, 
+// then create a new visualization object and draw it.
+function drawChart() {
+  var jsonData = $.ajax({
+      url: "scripts/ajaxpost.py",
+      dataType:"json",
+      type: "POST",
+      data: {'linesToGet' : $("#linesToGet").val(), 'sensor' : $("#selectSensor").val() },
+      async: false
+      }).responseText;
+   var data = new google.visualization.DataTable(jsonData);
+
+   // All options for LineChart go here.
+   var options = {
+      title: getRealName($("#selectSensor").val().slice(0,-4)),
+      hAxis: {
+        format: 'dMMM HH:ms'
+      }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('visualization'));
+    chart.draw(data, options);
+}
+});
+
+</pre>
+
+
+			<h3>Javascript for Canvas</h3>
+			<p>Hovedfunksjonene i canvas.js er dravGraf() og drawBars() som er direkte knyttet til hvert sitt canvas element i demo3.html. Det er de to hovedfunksjonene som fyrer av all javascriptkoden når brukeren klikker på submittknappen. Disse to hovedfunksjonene inneholder flere innvendige hjelpe funksjoner som tar seg av nødvendige opperasjoner. Noen av disse er ganske like i begge hovedfunksjonene og kunne hvert plassert utenfor, men vi har valgt å la dem stå inne i hovedfunksjonene fordi de har noen små forskjelder(eks: getMaxY). Resten av funksjonene er hjelpefunksjoner som brukes gjennom hovedfunksjonene.</p>
+			<br />
+
+	<p>getSensorNames();<br />
+	Denne funksjonen sender et AJAX kall til getsensors.py og brukes for å populere dropdown menyen med rom navn. Den tar også i bruk getRealName funksjonen for å gjøre dem lettere forstålig.</p>
+	<br/>
+	<p>getRealName(name);<br />
+	getRealName tar imot en streng som er tinymesh sin måte å identifisere sensorene sine på og bytter den ut med riktig rom nr.</p>
+	<br />
+	<p>getSensorData(antallLinjer)();<br />
+	Denne funksjonen tar i mot et tall som sier hvor mange linjer med data den ønsker tilbake. Så gjør den et AJAX kall til jsajax.py som returnerer en JSON string. Denne JSON dataen blir så parset til JSON objekter og lempet inn i et 2dimensjonalt array som returneres.</p>
+	<br />
+	<p>timeConverter(timeStamp, format);<br />
+	TimeConverter tar i mot et unix timestamp og ønsket format, deretter returneres det formatet som ble etterspurt.</p>
+	<br />
+		
+		<p class="figure">Kildekode: canvas.js:</p>
+
+<pre class="prettyprint"> <!-- canvas.js -->
+$("document").ready(function() {
+
+    //Fyller inn sensor menyen
+    getSensorNames();
+    
+    //lytter til museklikk på submit knappen og kjører begge tegne funksjonene
+    $('#btnSet').click(function() {
+
+        drawGraf();
+        drawBars();
+
+    });
+
+  
+    //Hovedfunksjon for tegning av grafen
+    function drawGraf(){
+
+        var graph;
+        var xPadding = 30;
+        var yPadding = 30;
+
+        //Henter inn canvas elementet etter ID og setter konteksten vi skal bruke som er 2D
+        graph = $("#can2");
+        var c = graph[0].getContext('2d');
+             
+        var tmp = getSensorData(1440);
+        var tid = new Array();
+        var data = new Array();
+        var data2 = new Array();
+        var data3 = new Array();
+        var data4 = new Array();
+        var data5 = new Array();
+        var data6 = new Array();
+    
+        var increment = 200
+        
+        // Distribuerer dataen fra den 2dimensjonale arrayen til egene arrayer og runder av verdiene. 
+		// Strengt tatt ikke nødvendig, men gjorde det lettere å arbeide med.
+        for(var i = 0; i &lt; tmp[0].length -1; i += increment) {
+            data[i] = Math.round(tmp[0][i]);
+            data2[i] = Math.round(tmp[1][i]/10);
+            data3[i] = Math.round(tmp[2][i]);
+            data4[i] = Math.round(tmp[3][i]);
+            data5[i] = Math.round(tmp[4][i]);
+            data6[i] = Math.round(tmp[5][i]);
+
+            tid[i] = timeConverter(tmp[6][i], 2);
+        }
+
+        //finner maksverdien i alle data arrayene sånn at grafen kan endre seg dynamisk
+        function getMaxY() {
+            var max = 0;
+         
+            for(var i = 0; i &lt; data.length; i += increment) {
+                if(data[i] > max) {
+                    max = data[i];
+                }
+                if(data2[i] > max) {
+                    max = data2[i];
+                }
+                if(data3[i] > max) {
+                    max = data3[i];
+                }
+                if(data4[i] > max) {
+                    max = data4[i];
+                }
+                if(data5[i] > max) {
+                    max = data5[i];
+                }
+                if(data6[i] > max) {
+                    max = data6[i];
+                }
+            }
+            
+            max += 10;
+            
+            return max;
+        }
+     
+        //hjelpe funksjon som finner riktig X pixel verdi på bakgrunn av data array verdi
+        function getXPixel(val) {
+            return ((graph.width() - xPadding) / data.length) * val + (xPadding * 1.5);
+        }
+        //hjelpe funksjon som finner riktig Y pixel verdi på bakgrunn av data array verdi
+        function getYPixel(val) {
+            return graph.height() - (((graph.height() - yPadding) / getMaxY()) * val) - yPadding;
+        }
+ 
+        //resetter canvasen så ny graf kan tegnes.
+        c.clearRect(0, 0, graph[0].width, graph[0].height);
+
+        //Bytter ut h2 tittelen med navnet på rommet brukeren har valgt
+		$("#tittel").empty();
+		$("#tittel").append(getRealName($("#selectSensor").val().slice(0,-4)));
+
+        //setter div instillinger på c
+        c.lineWidth = 2;
+        c.strokeStyle = '#333';
+        c.font = 'italic 8pt sans-serif';
+        c.textAlign = "center";
+
+        c.beginPath();
+        c.moveTo(xPadding, 0);
+        c.lineTo(xPadding, graph.height() - yPadding);
+        c.lineTo(graph.width(), graph.height() - yPadding);
+        c.stroke();
+
+        //Fyller inn tidspunktet for målingen som representeres
+        for(var i = 0; i &lt; tid.length; i += increment) {
+            c.fillText(tid[i], getXPixel(i), graph.height() - yPadding + 20);
+        }
+
+        c.textAlign = "right"
+        c.textBaseline = "middle";
+        
+        //skriver inn Y verdiene til grafen
+        for(var i = 0; i &lt; getMaxY(); i += 10) {
+            c.fillText(i, xPadding - 10, getYPixel(i));
+        }
+
+
+        c.strokeStyle = '#f00';
+        c.beginPath();
+        c.moveTo(getXPixel(0), getYPixel(data[0]));
+        
+        //endrer farge og sender alle datasettene til draw funksjonen
+        draw(data);
+        c.strokeStyle = 'blue';
+        draw(data2);
+        c.strokeStyle = 'black';
+        draw(data3);
+        c.strokeStyle = 'yellow';
+        draw(data4);
+        c.strokeStyle = 'green';
+        draw(data5);
+        c.strokeStyle = 'orange';
+        draw(data6);
+
+        //funksjonen som tegner opp alle linjene
+        function draw(tegneData){
+
+            c.beginPath();
+            c.moveTo(getXPixel(0), getYPixel(tegneData[0]));
+
+            for(var i = 1; i &lt; tegneData.length; i ++) {
+                c.lineTo(getXPixel(i), getYPixel(tegneData[i]));
+            }
+            c.stroke();
+
+            c.fillStyle = '#333';
+         
+            for(var i = 0; i &lt; tegneData.length; i ++) {  
+                c.beginPath();
+                c.arc(getXPixel(i), getYPixel(tegneData[i]), 4, 0, Math.PI * 2, true);
+                c.fill();
+            }
+        }
+    }
+
+
+
+
+    //Funksjonen som tegner søylediagrammet 
+    //arg1 = maxVerdi (taket på grafen), arg2 = VerdiSteg (intervalene opp til taket)
+    function drawBars() {
+
+    	var minVal, maxVal,
+        xScalar, yScalar,
+        numSamples, y;
+
+        //Henter inn canvas elementet etter ID og setter konteksten vi skal bruke som er 2D
+        var can = document.getElementById("can");
+        var ctx = can.getContext("2d");
+
+        var resultat = new Array();
+        var dataArr = new Array();
+        var dataName = new Array();
+        var dataValue = new Array();
+        var dataArr = getSensorData(1);
+        var tid;
+
+        //Runder av alle verdiene til 2 desimaler
+        for (var i=0;i &lt; dataArr.length;i++){
+            resultat[i] = Math.floor(dataArr[i][0] * 100) / 100;
+
+        }
+
+        //Deler co2 verdien på 10 så den kommer på nivå med de andre romverdiene.
+        resultat[1] = resultat[1]/10;
+        
+        //Konverterer timestampen fra tinymesh over til et mennesklig lesbart tidspunkt (via timeConverter funksjonen)
+        //Argumenter: unix timestamp, return format (1 = long, 2 = short)
+        tid = timeConverter(resultat[6],1);
+
+        //finner maksverdien i alle data arrayene sånn at grafen kan endre seg dynamisk
+        function getMaxY(){
+            var max = 0;
+         
+            for(var i = 0; i &lt; resultat.length-1; i ++) {
+                if(resultat[i] > max) {
+                    max = resultat[i];
+                }
+            }
+            
+            max += 10;
+            
+            max = Math.round(max);
+
+            return max;
+        }
+
+        //oppdaterer tittelen til den nylig konverterte timestampen
+        $("#tittel2").empty();
+        $("#tittel2").append(tid);
+        //fyller inn arrayene som holder overskrift og dataen hentet fra CSV filene via AJAX
+        dataName = [ "Audio", "co2", "Light", "Moist", "Move", "Temp", "Time"];
+        dataValue = resultat;
+
+        
+        //Setter variabler som brukes i utregningen av scope til grafen.
+        numSamples = dataName.length;
+        maxVal = getMaxY();
+        var stepSize = Math.round(maxVal/10);
+        var colHead = 50;
+        var rowHead = 60;
+        var margin = 10;
+
+        //sletter canvasen sånn at vi kan skrive ny data til den
+        ctx.clearRect(0, 0, can.width, can.height);
+
+        //setter div verdier på ctx og ferdigsatte scalaer til X og Y
+        ctx.fillStyle = "black"
+        yScalar = (can.height - colHead - margin) / (maxVal);
+        xScalar = (can.width - rowHead) / (numSamples);
+        ctx.strokeStyle = "rgba(128,128,255, 0.5)";
+        ctx.beginPath();
+
+        //Skriver rad verdier og tegner horisontale linjer
+        ctx.font = "12pt Helvetica"
+        var count =  0;
+        for (scale = maxVal; scale >= 0; scale -= stepSize) {
+            y = colHead + (yScalar * count * stepSize);
+            ctx.fillText(scale, margin,y + margin);
+            ctx.moveTo(rowHead, y)
+            ctx.lineTo(can.width, y)
+            count++;
+        }
+        ctx.stroke();
+
+        //Klargjør labels i toppen og over barene
+        ctx.font = "14pt Helvetica";
+        ctx.textBaseline = "bottom";
+        
+        //Løkke som skriver verdiene over barene
+        for (i = 0; i &lt; numSamples -1; i++) {
+            calcY(dataValue[i]);
+            ctx.fillText(dataValue[i], xScalar * (i + 1), y - margin);
+        }
+        //løkke som skriver datatypen over grafen
+        for (i = 0; i &lt; numSamples -1; i++) {
+            calcY(maxVal);
+            ctx.fillText(dataName[i], xScalar * (i + 1), y - margin);
+        }
+
+        //Setter farge og skygge effekt
+        ctx.fillStyle = "red";
+        ctx.shadowColor = 'rgba(128,128,128, 0.5)';
+        ctx.shadowOffsetX = 20;
+        ctx.shadowOffsetY = 5;
+
+        //Bruker transform funksjonen til å sette utgangspunktet for tegning til til bunnen av grafen og skalerer x og y til å matche dataen.
+        ctx.translate(0, can.height - margin);
+        ctx.scale(xScalar, -1 * yScalar);
+
+        //Tegner barene
+        for (i = 0; i &lt; numSamples -1; i++) {
+            ctx.fillRect(i + 1, 0, 0.5, dataValue[i]);
+        }
+        
+        //Hjelpe funksjon for y scalering som brukes i forløkkene over.
+        function calcY(value) {
+            y = can.height - value * yScalar;
+        }
+
+        //Resetter alle transformasjoner og setter alfa verdien på skygge effekten til 0 sånn at ikek alle ellementer får dropshadow
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.shadowColor = 'rgba(128,128,128, 0.0)';
+    }
+
+
+
+
+
+
+    //Funksjon som henter ut og populerer sensor listen med rom nummer
+    function getSensorNames() {
+        $.ajax({
+          url: "scripts/getsensors.py",
+          type: "POST",
+          dataType:"json",
+          success: function(response) {
+             $(response).each(function() {
+               var option = $('&lt;option /&gt;');
+               option.attr('value', this).text(getRealName(this.slice(0,-4))); // cuts off .csv
+               $('#selectSensor').append(option);
+             });
+          }
+        });
+    }
+
+
+
+
+    //Funksjon som gjør om tinymesh sitt romnavn med navn folk på bygget forstår.
+    function getRealName(name) {
+        if (name == "statsbygg-remmen-c1140e28") {
+          return "Aud max - Oppe";
+        } else if (name == "statsbygg-remmen-209adfaf") {
+          return "Aud max - Nede";
+        } else if (name == "statsbygg-remmen-00175c3c") {
+          return "FU1-042 - Dramarom";
+        } else if (name == "statsbygg-remmen-e5fb2deb") {
+          return "A1-022 - Stipendiatrom";
+        } else if (name == "statsbygg-remmen-4b1c8e6b") {
+          return "FU1-041 - Sminkerom";
+        }
+    }
+
+
+
+
+
+    //Funksjon som henter ut daten via AJAX og gir tilbake en 2dimensjonal array med alle verdier
+    function getSensorData(antallLinjer){
+        
+        //lagrer JSON dataen som vi henter med AJAX fra jsajax.js i variabelen jsonData
+        var jsonData = $.ajax({
+            
+            type: 'POST',
+            url: "scripts/jsajax.py",
+            dataType:"json",
+            data: {'linesToGet' : antallLinjer, 'sensor' : $("#selectSensor").val() },
+            async: false
+
+        }).responseText;
+
+        //parser jsonData til JSON objekter
+        var data = JSON.parse(jsonData);
+
+        var audio = new Array();
+        var luft = new Array();
+        var lys = new Array();
+        var fukt = new Array();
+        var move = new Array();
+        var temp = new Array();
+        var time = new Array();
+
+        var res = new Array();
+
+        //overfører JSON dataen til flere arrayer
+        for (var i=0;i &lt; data.length;i++){
+
+            audio[i] = data[i].audio;
+            luft[i] = data[i].co2;
+            lys[i] = data[i].light;
+            fukt[i] = data[i].moist;
+            move[i] = data[i].movement;
+            temp[i] = data[i].temp;
+            time[i] = data[i].timestamp;
+
+        }
+
+        //lager en 2dimensjonal array kalt res
+        res[0] = audio;
+        res[1] = luft;
+        res[2] = lys;
+        res[3] = fukt;
+        res[4] = move;
+        res[5] = temp;
+        res[6] = time;
+
+
+        //Returnerer res med alle verdiene for videre arbeid
+        return res;
+
+    }
+
+
+
+
+    //Funksjon som gjør om UNIX timestamp som vi får fra tinymesh
+    function timeConverter(timeStamp, format){
+        var a = new Date(timeStamp*1000);
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        if (a.getHours() &lt; 10) {
+		var hour = "0" + a.getHours();
+	} else {
+		var hour = a.getHours();
+	}
+        if (a.getMinutes() &lt; 10) {
+		var min = "0" + a.getMinutes();
+	} else {
+		var min = a.getMinutes();
+	}
+	if (a.getSeconds() &lt; 10) {
+        	var sec = "0" + a.getSeconds();
+	} else {
+		var sec = a.getSeconds();
+	}
+        var time
+
+        //sjekker hva slags format som var ønsket og lagrer det i variabelen time som senere returneres.
+        if(format == 1){
+            time = date + ' ' + month+' '+ year + ' kl: ' + hour + ':' + min + ':' + sec;
+        }
+        if(format == 2){
+            time = date+month+' ' + hour + ':' + min + ':' + sec;
+        }
+        return time;
+    }
+});
+	
+</pre>
+
+
+	</article>
+	
+	
+
+	
+	
+	<article> <!-- Oppsummering prosjekt -->
+		<h2 id="oppsummering">Oppsummering av prosjektet</h2> 
+		<p>Prosjektet fikk en god start i det gruppen tidlig ble enige om hva det skule handle om og at det ble tilgang til et API for innhenting av data. Møtene med oppdateringer forløp også greit med oppdragsgiver tidlig i prosessen. Midtveis bestemte et gruppemedlem å gi seg på grunn av for stor arbeidsbyrde i andre fag.</p>
+		<p>De neste to møtene med oppdragsgiver ble ikke avviklet dels på grunn av misforståelser og sykdom i gruppen. Retningslinjene var likevel så spesifikke inntil da at gruppen har gjennomført prosjektet innenfor det man mente måtte bli et godt sluttresultat.</p>
+
+		<p>Gruppen har jobbet rundt de samme oppgavene og har hatt sporadiske møter der man har sammenlignet og forkastet ideer som ikke ville fungert. På slutten ble det gjennomført parvis programmering for å sikre kvaliteten og at det var enighet rundt det som er slutproduktet.</p>
+
+<p>Mye nytt stoff har blitt gjennomgått og gruppen har fått en bredere innsikt i hva de forskjellige teknologiene gjør og sammenhengen dem imellom.</p>
+	
+	
+	<article> <!-- Referanser -->
+		<h2 id="referanser">Referanseliste</h2> 
+		<p>1. Frengstad, Olav (2012) <a href="doc/TinyMeshPublicAPI .pdf" target="_blank">TinySolutions RESTfull API</a></p>
+		<p></p>
+
+	</article>
+	
+	<article> <!-- Figurliste -->
+		<h2 id="figurer">Figurliste</h2> 
+		<p>Figur 1. Et eksempel på en Tinymesh måler.(Hentet fra TinyMesh presentasjonen <a href="http://www.ncesmart.com/Documents/BuildingLab%20v1.pdf" target="_blank">BuildingLab)</a></p>
+		<p>Figur 2. Et utdrag fra en av våre fem CSV filer (Egenprodusert)</p>
+		<p>Figur 3. Prosesskart over systemet (Egenprodusert)</p>
+
+	</article>
+	
+</section>
+
+</div>
+
+<footer id="footer">
+	<p><a href="http://frigg.hiof.no/dokweb_h124/">Dokweb gruppe 4</a> | Veileder <a href="http://www.ia.hiof.no/~borres/" target="_blank">Børre Stenseth</a> | for prosjektet: <a href="http://frigg.hiof.no/dokweb_h124/demo.html">Visualisering av måledata</a> på Remmen 2012</p>
+</footer>
+<!-- Document end
+=================================================================-->
+
+<script src="extstyle/google-code-prettify/src/prettify.js" type="text/javascript"></script>
+
+</body>
+
+</html>

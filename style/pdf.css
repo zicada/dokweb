@@ -1,0 +1,35 @@
+
+
+"""
+Make a PDF-file from a HTML file
+with PrinceXML
+"""
+import subprocess
+import sys
+
+#--------------------
+# fixed paths and logging
+""" project catalog """
+cat='c:\\projects\\princing\\'
+""" prince path """
+princepath='c:\\fixed\\prince\\engine\\bin\\prince.exe'
+""" log file """
+logfile=cat+'princelog.txt'
+""" full report """
+verbose=False
+
+"""
+Do one page to one page
+"""
+def doSinglePageJob(infile,outfile,stylesheet):
+        params=[princepath,infile,'-o '+outfile,'--log='+logfile]
+        if verbose:
+            params.append('-v')
+        params.append("-s "+stylesheet)
+        subprocess.call(params)
+#--------------------------------
+if __name__=="__main__":   
+    doSinglePageJob(cat+'dokumentasjon.html',
+                    cat+'dokumentasjon-visualisering_av_maaledata.pdf',
+                    cat+'pdfstyle.css')
+

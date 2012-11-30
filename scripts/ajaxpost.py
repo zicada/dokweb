@@ -3,6 +3,7 @@
 import sys
 import json
 import cgi
+sys.path.append('gviz_api_py-1.8.2')
 import gviz_api
 from commands import getoutput
 import datetime
@@ -51,7 +52,7 @@ description = [("audio","number"),("co2", "number"),("light","number"),("moist",
 data_table = gviz_api.DataTable(description)
 data_table.LoadData(data)
 
-# Pass the finished DataTable object to jquery
+# Pass the finished DataTable object to jquery in JSon format
 print "Content-type: application/json"
 print
 print data_table.ToJSon(columns_order=("timestamp", "light", "co2",  "moist", "movement", "temp", "audio"))

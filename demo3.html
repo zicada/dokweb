@@ -1,0 +1,63 @@
+﻿
+<!DOCTYPE html>
+<html lang="no">
+	<head>
+		<meta charset="UTF-8"/>	
+		<link rel="stylesheet" href="style/demo.css" />
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="javascript/canvas.js"></script>
+	<title>Visualisering av måledata - DEMO</title>
+</head>
+
+<body>
+
+<div id="container">
+
+	<header id="logo">
+		<h1><a href="http://frigg.hiof.no/dokweb_h124/"><b>Visualisering av måledata - DEMO</b></a></h1>
+	</header>
+
+	<div id="navitabs">
+		<a class="navitab" href="demo.html">Google Chart</a><span class="hide"> | </span>
+		<a class="navitab" href="demo2.html">Pygal serverside</a><span class="hide"> | </span>
+		<a class="activenavitab" href="demo3.html">Canvas</a><span class="hide"> | </span>
+		<a class="navitab" href="document.html">Dokumentasjon</a><span class="hide"> | </span>	</div>
+	
+	<div id="header">
+		
+		<p>Dynamiske data presentasjoner med canvas (ingen libraries). Øverste canvas gir målinger over de siste 24 timer med 200 minutters intervaler, mens den siste målingen av alle verdier på en sensor illustreres med et søylediagram i underste canvas.</p>
+		
+	</div>
+
+	<div>
+                <form method = "POST" action="/" id="submitForm">
+	                Sensor: <br><select name="selectSensor" id="selectSensor"></select>
+                	<input id="btnSet" type="button" value = " Submit "/>
+                </form>
+
+                <br><br>
+
+
+		<div>
+			<hr/>
+			<h2 id="tittel"></h2>
+			<canvas id="can2" height="400" width="800">
+			</canvas><br><br>
+		</div>
+		
+		<div>
+			<hr/>
+			<h2 id="tittel2"></h2>
+			<canvas id="can" height="400" width="800">
+			</canvas>
+		</div>
+
+	</div>
+
+		
+	<footer id="footer">
+		<p><a href="http://frigg.hiof.no/dokweb_h124/">Dokweb gruppe 4</a> | Veileder <a href="http://www.ia.hiof.no/~borres/" target="_blank">Børre Stenseth</a> | Dokumentasjon for prosjektet: <a href="http://frigg.hiof.no/dokweb_h124/demo.html">Visualisering av måledata</a> på Remmen 2012</p>
+	</footer>
+
+</body>
+</html>

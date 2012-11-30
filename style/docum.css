@@ -1,0 +1,139 @@
+*{
+	margin: 0px;						/* Set to zero to be sure it's default in all browsers at first*/
+	padding: 0px;
+}
+h1{
+	font: bold 24px Tahoma, Arial, Helvetica;
+}
+h2{
+	font: bold 18px Tahoma, Arial, Helvetica;
+	margin: 20px 0;
+}
+h3{
+	font: bold 14px Tahoma, Arial, Helvetica;
+	margin: 15px 0;
+}
+p{
+	text-indent: 2em;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	line-height: 1.7;
+}
+.figure {
+	text-indent: none;
+ 	font-family: Arial, Helvetica, sans-serif;
+	font-style: italic;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+header, nav, section, article, footer{
+	display: block; 					/*  for older browsers. Makes all tags blocklevel elements  */
+}
+body{
+	text-align: center;					/* for older browsers. Ensures that the body will be in the center of the browser. */
+}
+
+#all_content{
+	max-width: 960px;
+	margin: 40px auto 20px;
+	text-align: left;
+}
+#top_header{
+	padding: 0px 5px 10px 20px; /* Check this*/
+}
+
+#top_menu{
+	background: #6666FF;
+	border-top: 1px solid grey;
+}
+#top_menu li{
+	display:inline-block;
+	list-style: none;
+	border-right: 1px solid white;
+	padding: 5px 5px;
+	font: bold 14px Arial, Helvetica;
+	text-align: center;
+}
+#top_menu a{
+	text-decoration: none;
+	color: white;
+}
+#top_menu li:hover {
+		background: black;
+}
+
+#main_section{
+	border: 1px solid grey;
+	padding: 20px 10px 20px 80px;
+}
+
+#article{
+	margin-bottom: 15px;
+}
+
+#footer a {
+	color:#505050;
+}
+#footer a:hover {
+	color:#303030;
+}
+#footer p {
+	color:#505050; 
+	font-size:14px; 
+	margin:15px auto 30px; 
+	padding:0;
+	text-align: center;
+}
+}
+article > p{
+	margin-bottom: 10px;
+	max-width: 90%;
+}
+blockquote {
+	background: #CCFFFF;
+	padding: 5px 5px;
+	margin-left: 7%;
+	margin-bottom: 2%;
+	font-family: 12px Tahoma, Arial , Helvetica;
+	font-style: italic;
+	line-height: 1.5;
+	max-width: 80%;
+}
+
+
+/* Pretty printing styles. Used with prettify.js. */
+    /* changed from prettyprint since we mark them as readyandpretty as we do them */
+    pre.readyandpretty, pre.prettyprint, code.readyandpretty, code.prettyprint { 
+        padding: 2px; 
+        border: 2px solid #888; 
+        background:url(../pics/papermesh18x18px.gif);
+        font-family:consolas,courier,monospace;
+        font-size:12px;
+        line-height:18px; 
+        max-width: 90%;
+		padding: 0px 10px;
+		overflow: auto;
+		max-height: 30em;
+		margin: 0;
+		margin-bottom: 3em;
+		letter-spacing:0px;
+		-moz-border-radius: 10px;  /* */
+        -webkit-border-radius: 10px;
+        -o-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+        }
+        
+    .str { color: #080; }
+    .kwd { color: #008; font-weight:bold} /*bs bold for keywords */
+    .com { color: #800; font-style:italic}/*bs italic for comments */
+    .typ { color: #606; }
+    .lit { color: #066; }
+    .pun { color: #660; }
+    .pln { color: #000; }
+    .tag { color: #008; }
+    .atn { color: #606; }
+    .atv { color: #080; }
+    .dec { color: #606; }
